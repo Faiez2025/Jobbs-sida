@@ -13,7 +13,6 @@
         <link rel="stylesheet" href="css/fontawesome-all.min.css">
         <link rel="stylesheet" href="css/MarkerCluster.css">
         <link rel="stylesheet" href="css/MarkerCluster.Default.css">
-        <link rel="stylesheet" href="css/leaflet-search.css">
         <link rel="stylesheet" href="css/leaflet.photon.css">
         <style>
         html, body, #map {
@@ -23,7 +22,7 @@
             margin: 0;
         }
         </style>
-        <title> JOBBSÖKNING EFTER PLATS</title>
+        <title></title>
     </head>
     <body>
         <div id="map">
@@ -41,11 +40,8 @@
         <script src="js/labels.js"></script>
         <script src="js/leaflet.photon.js"></script>
         <script src="js/leaflet.markercluster.js"></script>
-        <script src="js/leaflet-search.js"></script>
         <script src="data/Sveriges_Ln_1.js"></script>
         <script src="data/Arbetsplats_2.js"></script>
-        <script src="data/Vstmanlandsln_3.js"></script>
-        <script src="data/Vsters_4.js"></script>
         <script>
         var highlightLayer;
         function highlightFeature(e) {
@@ -65,7 +61,7 @@
         }
         var map = L.map('map', {
             zoomControl:false, maxZoom:28, minZoom:1
-        }).fitBounds([[59.38299812018393,1.4830745935404472],[66.09031413576072,31.400901187510225]]);
+        }).fitBounds([[55.60698689469236,-9.23353145360645],[67.7720407767634,43.71732805892119]]);
         var hash = new L.Hash(map);
         map.attributionControl.setPrefix('<a href="https://github.com/tomchadwin/qgis2web" target="_blank">qgis2web</a> &middot; <a href="https://leafletjs.com" title="A JS library for interactive maps">Leaflet</a> &middot; <a href="https://qgis.org">QGIS</a>');
         var autolinker = new Autolinker({truncate: {length: 30, location: 'smart'}});
@@ -186,7 +182,7 @@
                 fill: true,
                 fillOpacity: 1,
                 fillColor: 'rgba(241,214,194,1.0)',
-                interactive: true,
+                interactive: false,
             }
         }
         map.createPane('pane_Sveriges_Ln_1');
@@ -194,7 +190,7 @@
         map.getPane('pane_Sveriges_Ln_1').style['mix-blend-mode'] = 'normal';
         var layer_Sveriges_Ln_1 = new L.geoJson(json_Sveriges_Ln_1, {
             attribution: '',
-            interactive: true,
+            interactive: false,
             dataVar: 'json_Sveriges_Ln_1',
             layerName: 'layer_Sveriges_Ln_1',
             pane: 'pane_Sveriges_Ln_1',
@@ -241,10 +237,6 @@
                     <tr>\
                         <th scope="row">MÅNAD</th>\
                         <td>' + (feature.properties['MÅNAD'] !== null ? autolinker.link(String(feature.properties['MÅNAD']).replace(/'/g, '\'').toLocaleString()) : '') + '</td>\
-                    </tr>\
-                    <tr>\
-                        <th scope="row">BESKED</th>\
-                        <td>' + (feature.properties['BESKED'] !== null ? autolinker.link(String(feature.properties['BESKED']).replace(/'/g, '\'').toLocaleString()) : '') + '</td>\
                     </tr>\
                     <tr>\
                         <th scope="row">R_MATCHA</th>\
@@ -298,129 +290,7 @@
 
         bounds_group.addLayer(layer_Arbetsplats_2);
         cluster_Arbetsplats_2.addTo(map);
-        function pop_Vstmanlandsln_3(feature, layer) {
-            layer.on({
-                mouseout: function(e) {
-                    for (var i in e.target._eventParents) {
-                        if (typeof e.target._eventParents[i].resetStyle === 'function') {
-                            e.target._eventParents[i].resetStyle(e.target);
-                        }
-                    }
-                    if (typeof layer.closePopup == 'function') {
-                        layer.closePopup();
-                    } else {
-                        layer.eachLayer(function(feature){
-                            feature.closePopup()
-                        });
-                    }
-                },
-                mouseover: highlightFeature,
-            });
-            var popupContent = '<table>\
-                    <tr>\
-                        <th scope="row">LÄNSNAMN</th>\
-                        <td>' + (feature.properties['LANSNAMN'] !== null ? autolinker.link(String(feature.properties['LANSNAMN']).replace(/'/g, '\'').toLocaleString()) : '') + '</td>\
-                    </tr>\
-                </table>';
-            var content = removeEmptyRowsFromPopupContent(popupContent, feature);
-			layer.on('popupopen', function(e) {
-				addClassToPopupIfMedia(content, e.popup);
-			});
-			layer.bindPopup(content, { maxHeight: 400 });
-        }
-
-        function style_Vstmanlandsln_3_0() {
-            return {
-                pane: 'pane_Vstmanlandsln_3',
-                opacity: 1,
-                color: 'rgba(35,35,35,1.0)',
-                dashArray: '',
-                lineCap: 'butt',
-                lineJoin: 'miter',
-                weight: 1.0, 
-                fill: true,
-                fillOpacity: 1,
-                fillColor: 'rgba(178,223,138,1.0)',
-                interactive: true,
-            }
-        }
-        map.createPane('pane_Vstmanlandsln_3');
-        map.getPane('pane_Vstmanlandsln_3').style.zIndex = 403;
-        map.getPane('pane_Vstmanlandsln_3').style['mix-blend-mode'] = 'normal';
-        var layer_Vstmanlandsln_3 = new L.geoJson(json_Vstmanlandsln_3, {
-            attribution: '',
-            interactive: true,
-            dataVar: 'json_Vstmanlandsln_3',
-            layerName: 'layer_Vstmanlandsln_3',
-            pane: 'pane_Vstmanlandsln_3',
-            onEachFeature: pop_Vstmanlandsln_3,
-            style: style_Vstmanlandsln_3_0,
-        });
-        bounds_group.addLayer(layer_Vstmanlandsln_3);
-        map.addLayer(layer_Vstmanlandsln_3);
-        function pop_Vsters_4(feature, layer) {
-            layer.on({
-                mouseout: function(e) {
-                    for (var i in e.target._eventParents) {
-                        if (typeof e.target._eventParents[i].resetStyle === 'function') {
-                            e.target._eventParents[i].resetStyle(e.target);
-                        }
-                    }
-                    if (typeof layer.closePopup == 'function') {
-                        layer.closePopup();
-                    } else {
-                        layer.eachLayer(function(feature){
-                            feature.closePopup()
-                        });
-                    }
-                },
-                mouseover: highlightFeature,
-            });
-            var popupContent = '<table>\
-                    <tr>\
-                        <th scope="row">KOMMUNNAMN</th>\
-                        <td>' + (feature.properties['KOMMUNNAMN'] !== null ? autolinker.link(String(feature.properties['KOMMUNNAMN']).replace(/'/g, '\'').toLocaleString()) : '') + '</td>\
-                    </tr>\
-                </table>';
-            var content = removeEmptyRowsFromPopupContent(popupContent, feature);
-			layer.on('popupopen', function(e) {
-				addClassToPopupIfMedia(content, e.popup);
-			});
-			layer.bindPopup(content, { maxHeight: 400 });
-        }
-
-        function style_Vsters_4_0() {
-            return {
-                pane: 'pane_Vsters_4',
-                opacity: 1,
-                color: 'rgba(35,35,35,1.0)',
-                dashArray: '',
-                lineCap: 'butt',
-                lineJoin: 'miter',
-                weight: 1.0, 
-                fill: true,
-                fillOpacity: 1,
-                fillColor: 'rgba(166,206,227,1.0)',
-                interactive: true,
-            }
-        }
-        map.createPane('pane_Vsters_4');
-        map.getPane('pane_Vsters_4').style.zIndex = 404;
-        map.getPane('pane_Vsters_4').style['mix-blend-mode'] = 'normal';
-        var layer_Vsters_4 = new L.geoJson(json_Vsters_4, {
-            attribution: '',
-            interactive: true,
-            dataVar: 'json_Vsters_4',
-            layerName: 'layer_Vsters_4',
-            pane: 'pane_Vsters_4',
-            onEachFeature: pop_Vsters_4,
-            style: style_Vsters_4_0,
-        });
-        bounds_group.addLayer(layer_Vsters_4);
-        map.addLayer(layer_Vsters_4);
         var overlaysTree = [
-            {label: '<img src="legend/Vsters_4.png" /> Västerås', layer: layer_Vsters_4},
-            {label: '<img src="legend/Vstmanlandsln_3.png" /> Västmanlands län', layer: layer_Vstmanlandsln_3},
             {label: '<img src="legend/Arbetsplats_2.png" /> Arbetsplats', layer: cluster_Arbetsplats_2},
             {label: '<img src="legend/Sveriges_Ln_1.png" /> Sveriges_Län', layer: layer_Sveriges_Ln_1},
             {label: "OSM Standard", layer: layer_OSMStandard_0, radioGroup: 'bm' },]
@@ -484,31 +354,6 @@
                 }, 500);
             }  
         });       
-        map.on("zoomend", function(){
-
-                if (map.hasLayer(layer_Vstmanlandsln_3)) {
-                    if (map.getZoom() <= 6 && map.getZoom() >= 19) {
-                        layer_Vstmanlandsln_3.eachLayer(function (layer) {
-                            layer.openTooltip();
-                        });
-                    } else {
-                        layer_Vstmanlandsln_3.eachLayer(function (layer) {
-                            layer.closeTooltip();
-                        });
-                    }
-                }
-                if (map.hasLayer(layer_Vsters_4)) {
-                    if (map.getZoom() <= 6 && map.getZoom() >= 19) {
-                        layer_Vsters_4.eachLayer(function (layer) {
-                            layer.openTooltip();
-                        });
-                    } else {
-                        layer_Vsters_4.eachLayer(function (layer) {
-                            layer.closeTooltip();
-                        });
-                    }
-                }
-        });
         setBounds();
         var i = 0;
         layer_Sveriges_Ln_1.eachLayer(function(layer) {
@@ -523,73 +368,15 @@
               addLabel(layer, i);
               i++;
         });
-        var i = 0;
-        layer_Vstmanlandsln_3.eachLayer(function(layer) {
-            var context = {
-                feature: layer.feature,
-                variables: {}
-            };
-            layer.bindTooltip((layer.feature.properties['LANSNAMN'] !== null?String('<div style="color: #323232; font-size: 8pt; font-weight: bold; font-family: \'Arial Black\', sans-serif;">' + layer.feature.properties['LANSNAMN']) + '</div>':''), {permanent: true, offset: [-0, -16], className: 'css_Vstmanlandsln_3'});
-            labels.push(layer);
-            totalMarkers += 1;
-              layer.added = true;
-              addLabel(layer, i);
-              i++;
-        });
-        var i = 0;
-        layer_Vsters_4.eachLayer(function(layer) {
-            var context = {
-                feature: layer.feature,
-                variables: {}
-            };
-            layer.bindTooltip((layer.feature.properties['KOMMUNNAMN'] !== null?String('<div style="color: #000000; font-size: 6pt; font-weight: bold; font-family: \'Arial Black\', sans-serif;">' + layer.feature.properties['KOMMUNNAMN']) + '</div>':''), {permanent: true, offset: [-0, -16], className: 'css_Vsters_4'});
-            labels.push(layer);
-            totalMarkers += 1;
-              layer.added = true;
-              addLabel(layer, i);
-              i++;
-        });
-                if (map.hasLayer(layer_Vstmanlandsln_3)) {
-                    if (map.getZoom() <= 6 && map.getZoom() >= 19) {
-                        layer_Vstmanlandsln_3.eachLayer(function (layer) {
-                            layer.openTooltip();
-                        });
-                    } else {
-                        layer_Vstmanlandsln_3.eachLayer(function (layer) {
-                            layer.closeTooltip();
-                        });
-                    }
-                }
-                if (map.hasLayer(layer_Vsters_4)) {
-                    if (map.getZoom() <= 6 && map.getZoom() >= 19) {
-                        layer_Vsters_4.eachLayer(function (layer) {
-                            layer.openTooltip();
-                        });
-                    } else {
-                        layer_Vsters_4.eachLayer(function (layer) {
-                            layer.closeTooltip();
-                        });
-                    }
-                }
-        map.addControl(new L.Control.Search({
-            layer: layer_Arbetsplats_2,
-            initial: false,
-            hideMarkerOnCollapse: true,
-            propertyName: 'LÄNSNAMN'}));
-        if (typeof url === 'undefined') {
-            document.getElementsByClassName('search-button')[0].className += ' fa fa-binoculars';
-        } else {
-            document.getElementsByClassName('search-button')[1].className += ' fa fa-binoculars';
-        }
-        resetLabels([layer_Sveriges_Ln_1,layer_Arbetsplats_2,layer_Vstmanlandsln_3,layer_Vsters_4]);
+        resetLabels([layer_Sveriges_Ln_1,layer_Arbetsplats_2]);
         map.on("zoomend", function(){
-            resetLabels([layer_Sveriges_Ln_1,layer_Arbetsplats_2,layer_Vstmanlandsln_3,layer_Vsters_4]);
+            resetLabels([layer_Sveriges_Ln_1,layer_Arbetsplats_2]);
         });
         map.on("layeradd", function(){
-            resetLabels([layer_Sveriges_Ln_1,layer_Arbetsplats_2,layer_Vstmanlandsln_3,layer_Vsters_4]);
+            resetLabels([layer_Sveriges_Ln_1,layer_Arbetsplats_2]);
         });
         map.on("layerremove", function(){
-            resetLabels([layer_Sveriges_Ln_1,layer_Arbetsplats_2,layer_Vstmanlandsln_3,layer_Vsters_4]);
+            resetLabels([layer_Sveriges_Ln_1,layer_Arbetsplats_2]);
         });
         </script>
     </body>
