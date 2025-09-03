@@ -13,6 +13,7 @@
         <link rel="stylesheet" href="css/fontawesome-all.min.css">
         <link rel="stylesheet" href="css/MarkerCluster.css">
         <link rel="stylesheet" href="css/MarkerCluster.Default.css">
+        <link rel="stylesheet" href="css/leaflet-search.css">
         <link rel="stylesheet" href="css/leaflet.photon.css">
         <style>
         html, body, #map {
@@ -40,6 +41,7 @@
         <script src="js/labels.js"></script>
         <script src="js/leaflet.photon.js"></script>
         <script src="js/leaflet.markercluster.js"></script>
+        <script src="js/leaflet-search.js"></script>
         <script src="data/Sveriges_Ln_1.js"></script>
         <script src="data/Arbetsplats_2.js"></script>
         <script>
@@ -132,36 +134,6 @@
                 mouseover: highlightFeature,
             });
             var popupContent = '<table>\
-                    <tr>\
-                        <td colspan="2">' + (feature.properties['LANSNAMN'] !== null ? autolinker.link(String(feature.properties['LANSNAMN']).replace(/'/g, '\'').toLocaleString()) : '') + '</td>\
-                    </tr>\
-                    <tr>\
-                        <td colspan="2">' + (feature.properties['Arbetsplats_TJÄNST_TI'] !== null ? autolinker.link(String(feature.properties['Arbetsplats_TJÄNST_TI']).replace(/'/g, '\'').toLocaleString()) : '') + '</td>\
-                    </tr>\
-                    <tr>\
-                        <td colspan="2">' + (feature.properties['Arbetsplats_ANSOKNINGS'] !== null ? autolinker.link(String(feature.properties['Arbetsplats_ANSOKNINGS']).replace(/'/g, '\'').toLocaleString()) : '') + '</td>\
-                    </tr>\
-                    <tr>\
-                        <td colspan="2">' + (feature.properties['Arbetsplats_FORETAG'] !== null ? autolinker.link(String(feature.properties['Arbetsplats_FORETAG']).replace(/'/g, '\'').toLocaleString()) : '') + '</td>\
-                    </tr>\
-                    <tr>\
-                        <td colspan="2">' + (feature.properties['Arbetsplats_MÅNAD'] !== null ? autolinker.link(String(feature.properties['Arbetsplats_MÅNAD']).replace(/'/g, '\'').toLocaleString()) : '') + '</td>\
-                    </tr>\
-                    <tr>\
-                        <td colspan="2">' + (feature.properties['Arbetsplats_BESKED'] !== null ? autolinker.link(String(feature.properties['Arbetsplats_BESKED']).replace(/'/g, '\'').toLocaleString()) : '') + '</td>\
-                    </tr>\
-                    <tr>\
-                        <td colspan="2">' + (feature.properties['Arbetsplats_R_MATCHA'] !== null ? autolinker.link(String(feature.properties['Arbetsplats_R_MATCHA']).replace(/'/g, '\'').toLocaleString()) : '') + '</td>\
-                    </tr>\
-                    <tr>\
-                        <td colspan="2">' + (feature.properties['Arbetsplats_LAT'] !== null ? autolinker.link(String(feature.properties['Arbetsplats_LAT']).replace(/'/g, '\'').toLocaleString()) : '') + '</td>\
-                    </tr>\
-                    <tr>\
-                        <td colspan="2">' + (feature.properties['Arbetsplats_LONG'] !== null ? autolinker.link(String(feature.properties['Arbetsplats_LONG']).replace(/'/g, '\'').toLocaleString()) : '') + '</td>\
-                    </tr>\
-                    <tr>\
-                        <td colspan="2">' + (feature.properties['Arbetsplats_ID'] !== null ? autolinker.link(String(feature.properties['Arbetsplats_ID']).replace(/'/g, '\'').toLocaleString()) : '') + '</td>\
-                    </tr>\
                 </table>';
             var content = removeEmptyRowsFromPopupContent(popupContent, feature);
 			layer.on('popupopen', function(e) {
@@ -368,6 +340,16 @@
               addLabel(layer, i);
               i++;
         });
+        map.addControl(new L.Control.Search({
+            layer: cluster_Arbetsplats_2,
+            initial: false,
+            hideMarkerOnCollapse: true,
+            propertyName: 'LÄNSNAMN'}));
+        if (typeof url === 'undefined') {
+            document.getElementsByClassName('search-button')[0].className += ' fa fa-binoculars';
+        } else {
+            document.getElementsByClassName('search-button')[1].className += ' fa fa-binoculars';
+        }
         resetLabels([layer_Sveriges_Ln_1,layer_Arbetsplats_2]);
         map.on("zoomend", function(){
             resetLabels([layer_Sveriges_Ln_1,layer_Arbetsplats_2]);
